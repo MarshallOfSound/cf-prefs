@@ -54,5 +54,13 @@
     "*.mm": [
       "clang-format -i"
     ]
-  }
+  },
+  "files": [
+    "binding.gyp",
+    "index.d.ts",
+    "README.md",
+    "preferences.mm",
+    "index.js",
+    "LICENSE"
+  ]
 }
