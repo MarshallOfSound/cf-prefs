@@ -1,3 +1,4 @@
+#include <iostream>
 #include <napi.h>
 
 #import <Foundation/Foundation.h>
@@ -164,14 +165,26 @@ CFStringRef GetCFKeyFromArgs(const Napi::CallbackInfo &info) {
   return key_str;
 }
 
+CFStringRef GetCFApplicationIDFromArgs(const Napi::CallbackInfo &info) {
+  if (info.Length() < 2) {
+    return kCFPreferencesCurrentApplication;
+  }
+
+  Napi::String app_id(info.Env(), info[1]);
+  CFStringRef app_id_str = CFStringCreateWithCString(
+      NULL, app_id.Utf8Value().c_str(), kCFStringEncodingUTF8);
+
+  return app_id_str == NULL ? kCFPreferencesCurrentApplication : app_id_str;
+}
+
 Napi::Value GetValue(const Napi::CallbackInfo &info) {
   if (info.Length() < 1) {
-    throw Napi::Error::New(info.Env(), "Missing 'key' argument to GetString()");
+    throw Napi::Error::New(info.Env(), "Missing 'key' argument to GetValue()");
   }
 
   CFStringRef key = GetCFKeyFromArgs(info);
-  CFPropertyListRef property_list =
-      CFPreferencesCopyAppValue(key, kCFPreferencesCurrentApplication);
+  CFStringRef app_id = GetCFApplicationIDFromArgs(info);
+  CFPropertyListRef property_list = CFPreferencesCopyAppValue(key, app_id);
   CFRelease(key);
 
   if (!property_list) {
@@ -191,8 +204,8 @@ Napi::Value IsPreferenceForced(const Napi::CallbackInfo &info) {
   }
 
   CFStringRef key = GetCFKeyFromArgs(info);
-  Boolean is_forced =
-      CFPreferencesAppValueIsForced(key, kCFPreferencesCurrentApplication);
+  CFStringRef app_id = GetCFApplicationIDFromArgs(info);
+  Boolean is_forced = CFPreferencesAppValueIsForced(key, app_id);
   CFRelease(key);
 
   return Napi::Value::From(info.Env(), CFBooleanToBool(is_forced));
