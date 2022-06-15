@@ -7,6 +7,12 @@
         "sources": [
           "preferences.mm"
         ],
+      }],
+      # Only allow setting applicationId in CI
+      ['"<!(echo $CI)"=="true"', {
+        'defines': [
+          "ALLOW_APPLICATION_ID"
+        ]
       }]
     ],
     'include_dirs': [

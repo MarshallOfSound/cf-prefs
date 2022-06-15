@@ -165,6 +165,7 @@ CFStringRef GetCFKeyFromArgs(const Napi::CallbackInfo &info) {
 }
 
 CFStringRef GetCFApplicationIDFromArgs(const Napi::CallbackInfo &info) {
+#ifdef ALLOW_APPLICATION_ID
   if (info.Length() < 2) {
     return kCFPreferencesCurrentApplication;
   }
@@ -174,6 +175,9 @@ CFStringRef GetCFApplicationIDFromArgs(const Napi::CallbackInfo &info) {
       NULL, app_id.Utf8Value().c_str(), kCFStringEncodingUTF8);
 
   return app_id_str == NULL ? kCFPreferencesCurrentApplication : app_id_str;
+#else
+  return kCFPreferencesCurrentApplication;
+#endif
 }
 
 Napi::Value GetValue(const Napi::CallbackInfo &info) {
