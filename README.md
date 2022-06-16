@@ -23,7 +23,6 @@ Returns `String` | `Integer` | `Boolean` | `Object` | `Array` | `undefined`
 Example:
 ```js
 console.log('My Preference Value:', prefs.getPreferenceValue('MyAppsCoolPreference'))
-console.log('Other Preference Value:', prefs.getPreferenceValue('OtherAppsCoolPreference', 'com.domain.otherapp'))
 ```
 
 ## `permissions.isPreferenceForced(key)`
