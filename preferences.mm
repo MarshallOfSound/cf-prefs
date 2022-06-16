@@ -151,6 +151,16 @@ Napi::Value PropertyToValue(Napi::Env env, CFPropertyListRef property) {
 // Preference getters
 
 CFStringRef GetCFKeyFromArgs(const Napi::CallbackInfo &info) {
+  if (info.Length() < 1) {
+    throw Napi::Error::New(info.Env(), "Missing 'key' argument to GetValue()");
+  }
+
+  if (!info[0].IsString()) {
+    throw Napi::Error::New(
+        info.Env(),
+        "Invalid argument 'key' to GetValue(), string was expected");
+  }
+
   Napi::String key(info.Env(), info[0]);
   CFStringRef key_str = CFStringCreateWithCString(NULL, key.Utf8Value().c_str(),
                                                   kCFStringEncodingUTF8);
@@ -181,10 +191,6 @@ CFStringRef GetCFApplicationIDFromArgs(const Napi::CallbackInfo &info) {
 }
 
 Napi::Value GetValue(const Napi::CallbackInfo &info) {
-  if (info.Length() < 1) {
-    throw Napi::Error::New(info.Env(), "Missing 'key' argument to GetValue()");
-  }
-
   CFStringRef key = GetCFKeyFromArgs(info);
   CFStringRef app_id = GetCFApplicationIDFromArgs(info);
   CFPropertyListRef property_list = CFPreferencesCopyAppValue(key, app_id);
