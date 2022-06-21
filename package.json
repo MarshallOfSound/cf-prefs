@@ -1,6 +1,6 @@
 {
   "name": "cf-prefs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A native node module to access managed app preferences on macOS",
   "main": "index.js",
   "types": "index.d.ts",
