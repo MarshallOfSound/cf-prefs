@@ -11,21 +11,18 @@ This native Node.js module allows you to read managed app preferences on macOS. 
 
 ## API
 
-## `prefs.getPreferenceValue(key, type)`
+## `prefs.getPreferenceValue(key)`
 
 * `key` String - The preference key to fetch the value of, has to be a valid UTF-8 string.
-* `type` String - The data-type of the preference you are fetching. Can be one of `string`, `integer` or `boolean`.
-* `defaultValue` String | Integer | Boolean (Optional) - If no value is present this value will be returned instead, if no default value is provided this method may return `undefined`.
 
-Returns `String` | `Integer` | `Boolean` | `undefined` - Depending on the requested type, see [the type definitions](./index.d.ts) for a more accurate mapping.
+Returns `String` | `Integer` | `Boolean` | `Object` | `Array` | `undefined`
 
 **Notes:**
-* If the preference is available but in a different type you will not receive an error, you will receive `undefined`.
 * If the preference is not available you will receive `undefined`.
 
 Example:
 ```js
-console.log('Preference Value:', prefs.getPreferenceValue('MyAppsCoolPreference', 'string', 'this-is-the-default'))
+console.log('My Preference Value:', prefs.getPreferenceValue('MyAppsCoolPreference'))
 ```
 
 ## `permissions.isPreferenceForced(key)`

@@ -1,11 +1,7 @@
 // Type definitions for cf-prefs
 // Project: cf-prefs
 
-export function getPreferenceValue(key: string, type: 'string'): string | undefined;
-export function getPreferenceValue(key: string, type: 'string', defaultValue: string): string;
-export function getPreferenceValue(key: string, type: 'integer'): number | undefined;
-export function getPreferenceValue(key: string, type: 'integer', defaultValue: number): number;
-export function getPreferenceValue(key: string, type: 'boolean'): boolean | undefined;
-export function getPreferenceValue(key: string, type: 'boolean', defaultValue: boolean): boolean;
+export type CFPrefValue = boolean | number | string | Array<CFPrefValue> | Record<string, CFPrefValue> | undefined;
+export function getPreferenceValue(key: string): CFPrefValue;
 
 export function isPreferenceForced(key: string): boolean;

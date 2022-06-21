@@ -17,6 +17,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         version: 14.x
+    - name: install python dependencies
+      run: |
+        pip install pyobjc
     - name: yarn install, build, and test
       run: |
         yarn --frozen-lockfile
