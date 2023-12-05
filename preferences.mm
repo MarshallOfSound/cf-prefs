@@ -2,6 +2,8 @@
 
 #import <Foundation/Foundation.h>
 
+#include "preferences.h"
+
 // CF Converters
 
 struct PropertyObjectContext {
@@ -222,7 +224,7 @@ Napi::Value IsPreferenceForced(const Napi::CallbackInfo &info) {
 
 // Module bindings
 
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
+Napi::Object InitCFPrefs(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "getValue"),
               Napi::Function::New(env, GetValue));
 
@@ -232,4 +234,4 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   return exports;
 }
 
-NODE_API_MODULE(cfprefs, Init)
+NODE_API_MODULE(cfprefs, InitCFPrefs)
