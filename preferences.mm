@@ -192,11 +192,23 @@ CFStringRef GetCFApplicationIDFromArgs(const Napi::CallbackInfo &info) {
 #endif
 }
 
+void ReleaseApplicationID(CFStringRef app_id) {
+#ifdef ALLOW_APPLICATION_ID
+  // Don't try to release statics.
+  if (app_id == NULL || app_id == kCFPreferencesCurrentApplication) {
+    return;
+  }
+
+  CFRelease(app_id);
+#endif
+}
+
 Napi::Value GetValue(const Napi::CallbackInfo &info) {
   CFStringRef key = GetCFKeyFromArgs(info);
   CFStringRef app_id = GetCFApplicationIDFromArgs(info);
   CFPropertyListRef property_list = CFPreferencesCopyAppValue(key, app_id);
   CFRelease(key);
+  ReleaseApplicationID(app_id);
 
   if (!property_list) {
     return Napi::Value();
@@ -218,6 +230,7 @@ Napi::Value IsPreferenceForced(const Napi::CallbackInfo &info) {
   CFStringRef app_id = GetCFApplicationIDFromArgs(info);
   Boolean is_forced = CFPreferencesAppValueIsForced(key, app_id);
   CFRelease(key);
+  ReleaseApplicationID(app_id);
 
   return Napi::Value::From(info.Env(), CFBooleanToBool(is_forced));
 }
