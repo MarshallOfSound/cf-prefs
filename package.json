@@ -39,7 +39,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.5.3",
     "mocha": "^8.2.1",
-    "node-gyp": "^7.1.2",
+    "node-gyp": "^11.3.0",
     "prettier": "^2.2.1"
   },
   "husky": {
@@ -62,5 +62,6 @@
     "preferences.mm",
     "index.js",
     "LICENSE"
-  ]
+  ],
+  "packageManager": "yarn@1.22.22"
 }
